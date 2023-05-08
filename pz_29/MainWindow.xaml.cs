@@ -27,48 +27,9 @@ namespace pz_29
         {
             InitializeComponent();
         }
-
-        static Button button = new Button();
         
         Bank<Account> bank = new Bank<Account>("ЮнитБанк");
-
-        public static void Do()
-        {
-            MainWindow window = new MainWindow();
-
-            bool alive = true;
-            while (alive)
-            {
-                try
-                {
-                    switch (button.Name)
-                    {
-                        case "OpenAccount":
-                            OpenAccount(window.bank);
-                            break;
-                        case "Withdraw":
-                            Withdraw(window.bank);
-                            break;
-                        case "Put":
-                            Put(window.bank);
-                            break;
-                        case "CloseAccount":
-                            CloseAccount(window.bank);
-                            break;
-                        case "Skip_A_Day":
-                            break;
-                        case "Exit":
-                            alive = false;
-                            continue;
-                    }
-                    window.bank.CalculatePercentage();
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message);
-                }
-            }
-        }
+        
         private static void OpenAccount(Bank<Account> bank)
         {           
             string input = Interaction.InputBox("Укажите сумму для создания счета:", "Ввод суммы");
@@ -146,21 +107,25 @@ namespace pz_29
         private void OpenAccountHandler(object sender, RoutedEventArgs e)
         {
             OpenAccount(bank);
+            bank.CalculatePercentage();
         }
 
         private void WithdrawSumHandler(object sender, RoutedEventArgs e)
         {
             Withdraw(bank);
+            bank.CalculatePercentage();
         }
 
         private void AddSumHandler(object sender, RoutedEventArgs e)
         {
             Put(bank);
+            bank.CalculatePercentage();
         }
 
         private void CloseAccountHandler(object sender, RoutedEventArgs e)
         {
             CloseAccount(bank);
+            bank.CalculatePercentage();
         }
 
         private void Skip_A_Day(object sender, RoutedEventArgs e)
@@ -172,6 +137,7 @@ namespace pz_29
         {
             AccountEventArgs accountEventArgs = new AccountEventArgs("Выход из приложения", 0);
             Exit(sender, accountEventArgs);
+            bank.CalculatePercentage();
         }
     }
 }
